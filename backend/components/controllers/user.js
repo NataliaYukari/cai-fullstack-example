@@ -1,5 +1,6 @@
 const security = require('../security')
 const User = require('../models/user')
+const bcrypt = require('bcryptjs');
 
 module.exports = function controller() {
     let Controller = {}
@@ -34,27 +35,19 @@ module.exports = function controller() {
                     res.send({ success: false, error: error.message })
                 }
             })
-
-
-
     }
 
-    Controller._encrypt = (password) => {
-        const crypto = require('crypto');
-
-        let mykey = crypto.createCipher('aes-128-cbc', password);
-        let mystr = mykey.update('abc', 'utf8', 'hex')
-        mystr += mykey.final('hex');
-        console.log(mystr)
-
-        return mystr
+    Controller._encrypt = async (password) => {
+        const hashCost = 10;
+        const hashedPassword = await bcrypto.hash(password, hashCost);
+        return hashedPassword
     }
 
-    Controller.create = (req, res, next) => {
+    Controller.create = async (req, res, next) => {
         const novoUsuario = new User({
             name: req.body.name,
             email: req.body.email,
-            password: Controller._encrypt(req.body.password)
+            password: await Controller._encrypt(req.body.password)
         })
 
         novoUsuario.save().then(() => {

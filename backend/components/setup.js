@@ -5,6 +5,10 @@ const messageRoutes = require('./routes/message')
 const userRoutes = require('./routes/user')
 const accountRoutes = require('./routes/account')
 const mongoose = require('mongoose')
+const dotenv = require('dotenv');
+
+dotenv.config({path: './.env'});
+const uri = process.env.MONGODB_URI;
 
 module.exports = function setup() {
     //criando o app
@@ -23,7 +27,7 @@ module.exports = function setup() {
         cookie: { maxAge: 600000 }
     }));
 
-    mongoose.connect("mongodb://localhost:27017/test")
+    mongoose.connect(uri)
     .then(()=>{
         console.log("Banco Conectado!")
     }).catch((err)=>{

@@ -7,16 +7,17 @@ import Message from './components/Message';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Login from './components/Login';
+import CreateUser from './components/CreateUser';
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
       
-      <Navbar></Navbar>
+
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<CreateUser />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/account" element={<Account />} />
         <Route path="/message" element={<Message />} />
